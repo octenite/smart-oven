@@ -57,12 +57,12 @@ BLYNK_WRITE(V7) {
 BLYNK_WRITE(V11) {
   recipeMode = param.asInt();
   int prox = digitalRead(Proxy);
-
+  String recipename = "";
   if (prox == 0) { // utensil is placed
     switch (recipeMode) {
-      case 1: recipeDuration = 30000; break; // Quick Noodles
-      case 2: recipeDuration = 60000; break; // Boiled Eggs
-      case 3: recipeDuration = 90000; break; // Rice
+      case 0: recipeDuration = 10000; recipename="Quick Noodles"; break; // Quick Noodles
+      case 1: recipeDuration = 12000; recipename="Boiled Eggs"; break; // Boiled Eggs
+      case 2: recipeDuration = 15000; recipename="rice"; break; // Rice
       default: recipeDuration = 0; break;
     }
 
@@ -70,7 +70,9 @@ BLYNK_WRITE(V11) {
       servo1.write(90); // start
       recipeStartTime = millis();
       recipeActive = true;
-      String msg = String("Started recipe mode: ") + recipeMode;
+      
+      
+      String msg = "Started: " + recipename;
       Blynk.logEvent("recipe_started", msg);
     }
   } else {
@@ -81,9 +83,9 @@ BLYNK_WRITE(V11) {
 
 String getRecipeName(int mode) {
   switch (mode) {
-    case 1: return "Quick Noodles";
-    case 2: return "Boiled Eggs";
-    case 3: return "Rice";
+    case 0: return "Quick Noodles";
+    case 1: return "Boiled Eggs";
+    case 2: return "Rice";
     default: return "Unknown Recipe";
   }
 }
